@@ -1,28 +1,21 @@
-'use strict';
-
 import Hapi from '@hapi/hapi';
-import { Request, Server } from '@hapi/hapi';
+import { Server } from '@hapi/hapi';
+import routes from './routes';
+import users from './plugins/users';
+import posts from './plugins/posts';
 export let server: Server;
-
+import prisma from './plugins/prisma';
 export const init = async function (): Promise<Server> {
   server = Hapi.server({
     port: process.env.PORT || 4000,
     host: 'localhost',
   });
-
+  await server.register([prisma, users, posts]);
   // Routes will go here
-  server.route({
-    method: 'GET',
-    path: '/',
-    handler: index,
-  });
+  server.route(routes);
 
   return server;
 };
-function index(request: Request): string {
-  console.log('Processing request', request.info.id);
-  return 'Hello! Nice to have met you.';
-}
 
 export const start = async function (): Promise<void> {
   console.log(

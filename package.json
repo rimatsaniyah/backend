@@ -7,13 +7,16 @@
     "dev:tsc": "tsc --watch -p .",
     "dev:serve": "nodemon -e js -w lib lib/main.js",
     "dev": "run-p dev:*",
-    "test": "NODE_ENV=test mocha -r ts-node/register test/**/*.test.ts"
+    "test": "NODE_ENV=test mocha -r ts-node/register test/**/*.test.ts",
+    "seed": "ts-node prisma/seed.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@hapi/hapi": "^20.2.1"
+    "@hapi/hapi": "^20.2.1",
+    "@prisma/client": "^3.14.0",
+    "prisma": "^3.14.0"
   },
   "devDependencies": {
     "@types/chai": "^4.3.1",
