@@ -2,7 +2,6 @@ import Hapi from '@hapi/hapi';
 import { Server } from '@hapi/hapi';
 import routes from './routes';
 import users from './plugins/users';
-import posts from './plugins/posts';
 import products from './plugins/products';
 import Inert from '@hapi/inert';
 import Vision from '@hapi/vision';
@@ -35,7 +34,7 @@ export const init = async function (): Promise<Server> {
     },
   ];
   await server.register(plugins);
-  await server.register([prisma, users, posts, products, categories]);
+  await server.register([prisma, users, products, categories]);
   server.route(routes);
 
   return server;
