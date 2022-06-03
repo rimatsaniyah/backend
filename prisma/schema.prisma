@@ -46,4 +46,12 @@ model Category{
   products Product[]
 
 }
+model Transaction {
+  id         String     @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+  image String
+  
+
+}
+
 
