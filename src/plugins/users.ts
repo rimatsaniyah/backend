@@ -26,6 +26,18 @@ const usersPlugin = {
     ]),
       server.route([
         {
+          method: 'PUT',
+          path: '/user/{id}',
+          options: {
+            handler: signupHandler,
+            description: 'Get todo',
+            notes: 'Returns a todo item by the id passed in the path',
+            tags: ['api'], // ADD THIS TAG
+          },
+        },
+      ]),
+      server.route([
+        {
           method: 'GET',
           path: '/users',
           handler: getAllUsersHandler,
@@ -38,13 +50,14 @@ export default usersPlugin;
 
 async function signupHandler(request: Hapi.Request, h: Hapi.ResponseToolkit) {
   const { prisma } = request.server.app;
-  const { name, email, posts } = request.payload as any;
+  const { name, email, avatar } = request.payload as any;
 
   try {
     const createdUser = await prisma.user.create({
       data: {
         name,
         email,
+        avatar,
       },
     });
     return h.response(createdUser).code(201);

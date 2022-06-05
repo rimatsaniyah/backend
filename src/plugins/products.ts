@@ -22,7 +22,7 @@ const productsPlugin = {
     server.route([
       {
         method: 'POST',
-        path: '/products',
+        path: '/product',
         options: {
           handler: createProductHandler,
           description: 'Get todo',
