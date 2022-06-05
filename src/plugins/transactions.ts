@@ -55,7 +55,9 @@ async function getTransactionsHandler(
       include: {
         sharer: true,
         product: true,
-        confirmation: true,
+        confirmation: {
+          include: { taker: true },
+        },
       },
     });
     return h.response(transactions).code(200);
