@@ -69,7 +69,26 @@ async function getTransactionsHandler(
 async function createTransactionHandler(
   request: Hapi.Request,
   h: Hapi.ResponseToolkit,
-) {}
+) {
+  const { prisma } = request.server.app;
+  const { productId, status, email } = request.payload as any;
+  try {
+    const user = await prisma.user.findUnique({
+      where: { email: email },
+    });
+    const transactions = await prisma.transaction.create({
+      data: {
+        productId,
+        sharerId: user?.id,
+        status,
+        confirmationId: [],
+      },
+    });
+    return h.response(transactions).code(200);
+  } catch (err) {
+    console.log(err);
+  }
+}
 async function updateTransactionHandler(
   request: Hapi.Request,
   h: Hapi.ResponseToolkit,

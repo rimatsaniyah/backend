@@ -47,7 +47,7 @@ model Transaction {
   confirmation Confirmation[]  @relation(fields: [confirmationId], references: [id])
    confirmationId   String[]    @db.ObjectId
   sharer   User?    @relation(fields: [sharerId], references: [id])
-  sharerId   String    @db.ObjectId
+  sharerId   String?    @db.ObjectId
 
 }
 model Confirmation{
