@@ -27,7 +27,7 @@ model Product {
   location String
   description String
   avatar String?
-  transaction Transaction?
+  transaction Transaction? 
   category Category? @relation(fields: [categoryId], references: [id])
     categoryId   String?    @db.ObjectId
 }
@@ -41,9 +41,10 @@ model Category{
 }
 model Transaction {
   id         String     @id @default(auto()) @map("_id") @db.ObjectId
-  product   Product? @relation(fields: [productId], references: [id])
+  product   Product? @relation(fields: [productId], references: [id]) 
   productId   String?    @db.ObjectId  
   status String
+
    confirmation   Confirmation[]   
   sharer   User?    @relation(fields: [sharerId], references: [id])
   sharerId   String?    @db.ObjectId

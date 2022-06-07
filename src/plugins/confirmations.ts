@@ -63,7 +63,29 @@ async function getconfirmationsHandler(
 async function createconfirmationHandler(
   request: Hapi.Request,
   h: Hapi.ResponseToolkit,
-) {}
+) {
+  const { prisma } = request.server.app;
+  const { productId, status, email, note } = request.payload as any;
+  try {
+    const product = await prisma.transaction.findUnique({
+      where: { productId },
+    });
+    const user = await prisma.user.findUnique({
+      where: { email: email },
+    });
+    const transactions = await prisma.confirmation.create({
+      data: {
+        transactionId: product?.id,
+        takerId: user?.id,
+        status,
+        note,
+      },
+    });
+    return h.response(transactions).code(200);
+  } catch (err) {
+    console.log(err);
+  }
+}
 async function updateconfirmationHandler(
   request: Hapi.Request,
   h: Hapi.ResponseToolkit,
