@@ -51,8 +51,8 @@ async function getconfirmationsHandler(
   const { prisma } = request.server.app;
 
   try {
-    const transactions = await prisma.transaction.findMany({
-      include: { sharer: true, product: true, confirmation: true },
+    const transactions = await prisma.confirmation.findMany({
+      include: { taker: true },
     });
     return h.response(transactions).code(200);
   } catch (err) {
