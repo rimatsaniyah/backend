@@ -30,6 +30,18 @@ const transactionsPlugin = {
       ]),
       server.route([
         {
+          method: 'GET',
+          path: '/transactions/{id}',
+          options: {
+            handler: getTransactionByIdHandler,
+            description: 'Get todo',
+            notes: 'Returns a todo item by the id passed in the path',
+            tags: ['api'], // ADD THIS TAG
+          },
+        },
+      ]),
+      server.route([
+        {
           method: 'PUT',
           path: '/transaction/{id}',
           options: {
@@ -52,6 +64,37 @@ async function getTransactionsHandler(
 
   try {
     const transactions = await prisma.transaction.findMany({
+      include: {
+        sharer: true,
+        product: true,
+        confirmation: {
+          include: { taker: true },
+        },
+      },
+    });
+    return h.response(transactions).code(200);
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+async function getTransactionByIdHandler(
+  request: Hapi.Request,
+  h: Hapi.ResponseToolkit,
+) {
+  const { prisma } = request.server.app;
+  const { id } = request.params as any;
+  try {
+    const transactions = await prisma.transaction.findMany({
+      where: {
+        confirmation: {
+          some: {
+            taker: {
+              email: id,
+            },
+          },
+        },
+      },
       include: {
         sharer: true,
         product: true,
