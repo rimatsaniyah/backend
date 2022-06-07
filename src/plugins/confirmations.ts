@@ -89,4 +89,22 @@ async function createconfirmationHandler(
 async function updateconfirmationHandler(
   request: Hapi.Request,
   h: Hapi.ResponseToolkit,
-) {}
+) {
+  const { prisma } = request.server.app;
+  const { id } = request.params as any;
+  const { status } = request.payload as any;
+
+  try {
+    const updateUser = await prisma.confirmation.update({
+      where: {
+        id: id,
+      },
+      data: {
+        status: status,
+      },
+    });
+    return h.response(updateUser).code(200);
+  } catch (err) {
+    console.log(err);
+  }
+}
