@@ -75,7 +75,7 @@ async function createconfirmationHandler(
     });
     const transactions = await prisma.confirmation.create({
       data: {
-        transactionId: product?.id,
+        transactionId: product?.id as any,
         takerId: user?.id,
         status,
         note,
