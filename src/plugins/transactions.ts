@@ -81,7 +81,6 @@ async function createTransactionHandler(
         productId,
         sharerId: user?.id,
         status,
-        confirmationId: [],
       },
     });
     return h.response(transactions).code(200);
