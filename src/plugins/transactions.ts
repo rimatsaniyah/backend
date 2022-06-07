@@ -134,4 +134,22 @@ async function createTransactionHandler(
 async function updateTransactionHandler(
   request: Hapi.Request,
   h: Hapi.ResponseToolkit,
-) {}
+) {
+  const { prisma } = request.server.app;
+  const { id } = request.params as any;
+  const { status } = request.payload as any;
+
+  try {
+    const updateUser = await prisma.transaction.update({
+      where: {
+        id: id,
+      },
+      data: {
+        status: status,
+      },
+    });
+    return h.response(updateUser).code(200);
+  } catch (err) {
+    console.log(err);
+  }
+}
