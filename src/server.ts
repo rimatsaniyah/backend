@@ -5,6 +5,7 @@ import users from './plugins/users';
 import products from './plugins/products';
 import transactions from './plugins/transactions';
 import confirmations from './plugins/confirmations';
+import reviews from './plugins/reviews';
 import Inert from '@hapi/inert';
 import Vision from '@hapi/vision';
 import categories from './plugins/categories';
@@ -43,6 +44,7 @@ export const init = async function (): Promise<Server> {
     categories,
     transactions,
     confirmations,
+    reviews,
   ]);
   server.route(routes);
 

@@ -49,7 +49,11 @@ async function getAllProductsHandler(
 
   try {
     const products = await prisma.product.findMany({
-      include: { category: true, transaction: true },
+      include: {
+        category: true,
+        transaction: true,
+        review: { include: { user: true } },
+      },
     });
     return h.response(products).code(200);
   } catch (err) {
