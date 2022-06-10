@@ -49,6 +49,9 @@ async function getAllProductsHandler(
 
   try {
     const products = await prisma.product.findMany({
+      orderBy: {
+        createdAt: 'desc',
+      },
       include: {
         category: true,
         transaction: true,
