@@ -52,6 +52,9 @@ async function getconfirmationsHandler(
 
   try {
     const transactions = await prisma.confirmation.findMany({
+      orderBy: {
+        createdAt: 'desc',
+      },
       include: { taker: true },
     });
     return h.response(transactions).code(200);

@@ -64,6 +64,9 @@ async function getTransactionsHandler(
 
   try {
     const transactions = await prisma.transaction.findMany({
+      orderBy: {
+        createdAt: 'desc',
+      },
       include: {
         sharer: true,
         product: true,
@@ -86,6 +89,9 @@ async function getTransactionByIdHandler(
   const { id } = request.params as any;
   try {
     const transactions = await prisma.transaction.findMany({
+      orderBy: {
+        createdAt: 'desc',
+      },
       where: {
         confirmation: {
           some: {
