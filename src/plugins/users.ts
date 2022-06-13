@@ -26,10 +26,10 @@ const usersPlugin = {
     ]),
       server.route([
         {
-          method: 'PUT',
+          method: 'GET',
           path: '/user/{id}',
           options: {
-            handler: signupHandler,
+            handler: getUserByIdHandler,
             description: 'Get todo',
             notes: 'Returns a todo item by the id passed in the path',
             tags: ['api'], // ADD THIS TAG
@@ -75,6 +75,24 @@ async function getAllUsersHandler(
   try {
     const users = await prisma.user.findMany();
     return h.response(users).code(200);
+  } catch (err) {
+    console.log(err);
+  }
+}
+async function getUserByIdHandler(
+  request: Hapi.Request,
+  h: Hapi.ResponseToolkit,
+) {
+  const { prisma } = request.server.app;
+  const { id } = request.params as any;
+  try {
+    const users = await prisma.user.findUnique({
+      where: {
+        email: id,
+      },
+    });
+
+    return h.response(users || '').code(200);
   } catch (err) {
     console.log(err);
   }
